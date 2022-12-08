@@ -15,5 +15,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WX7SLTQ"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+    <script>
+      httpBinGet = function(){
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://httpbin.org/get');
+        xhr.onload = (res) => {
+          // Request finished. Do processing here.
+          console.log(res);
+        };
+        xhr.send(null);
+      };
+    </script>
+    <button style="width:320px;height:50px;" onclick="httpBinGet()">Click here for the magic.</button>
   </body>
 </html>
