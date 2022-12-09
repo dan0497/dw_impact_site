@@ -16,16 +16,36 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     <script>
-      httpBinGet = function(){
+      //Handle response from API
+      function handleRes(res){
+        console.log(res);
+      }
+      //Make API request with QS params from DL
+      function loadApi(url, callback) {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', 'https://httpbin.org/get');
-        xhr.onload = (res) => {
-          // Request finished. Do processing here.
-          console.log(res);
-        };
-        xhr.send(null);
-      };
+        var queryString='';
+        
+        //Loop through DL to grab QS params
+        for(i in dataLayer){
+          if(dataLayer[i].key){
+            queryString='?key='+dataLayer[i].key;
+          }
+          if(dataLayer[i].value){
+            queryString+='&value='+dataLayer[i].value;
+          }
+        }
+        
+        //Handle response once request complete
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState === 4) {
+            callback(xhr.response);
+          }
+        }
+
+        xhr.open('GET', url+queryString);
+        xhr.send();
+      }
     </script>
-    <button style="width:320px;height:50px;" onclick="httpBinGet()">Click here for the magic.</button>
+    <button style="width:320px;height:50px;" onclick="loadApi('https://httpbin.org/get',handleRes)">Click here for the magic.</button>
   </body>
 </html>
